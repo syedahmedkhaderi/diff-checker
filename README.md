@@ -7,18 +7,13 @@ A quiet, local-first text comparison workspace with LaTeX source highlighting an
 Requires Node.js 22.13 or later (Node.js 24 recommended).
 
 ```sh
-npm install
-npm run dev
+./setup.sh     # install dependencies and build (run once)
+./start.sh     # serve the app at http://127.0.0.1:5273
 ```
 
-Open **http://127.0.0.1:5173**. This starts Vite and the local compilation companion together. To serve a production build from one local origin:
+`./setup.sh` also reports whether the optional LaTeX tools are installed. For live-reload development, `./start.sh dev` runs Vite and the companion together at **http://127.0.0.1:5173**.
 
-```sh
-npm run build
-npm start
-```
-
-Open **http://127.0.0.1:5273**. All dependencies, including the PDF worker, are served locally; there are no CDN fonts, analytics, remote document uploads, or accounts.
+All dependencies, including the PDF worker, are served locally; there are no CDN fonts, analytics, remote document uploads, or accounts.
 
 ## Compare text
 
