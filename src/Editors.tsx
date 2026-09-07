@@ -26,7 +26,6 @@ type Props = {
   options: Options;
   wrap: boolean;
   collapse: boolean;
-  sync: boolean;
   mode: "split" | "unified" | "original" | "revised";
   onLimit: () => void;
   onChange: (side: number, value: string) => void;
@@ -215,9 +214,10 @@ export const Editors = forwardRef<EditorHandle, Props>(
           compare(a, b, latest.current.options),
         timeout: 50,
       };
-      let unlisten = () => {};
       if (props.mode === "split") {
-        const view = new MergeView({
+        // MergeView shares one scroller across both columns and keeps changed
+        // regions row-aligned, so the two sides always scroll together.
+        merge.current = new MergeView({
           a: { doc: props.a, extensions: extensions(0) },
           b: { doc: props.b, extensions: extensions(1) },
           parent: host.current,
@@ -228,24 +228,6 @@ export const Editors = forwardRef<EditorHandle, Props>(
             ? { margin: 3, minSize: 8 }
             : undefined,
         });
-        merge.current = view;
-        let locked = false;
-        const sync = (source: EditorView, target: EditorView) => {
-          if (!latest.current.sync || locked) return;
-          locked = true;
-          target.scrollDOM.scrollTop = source.scrollDOM.scrollTop;
-          requestAnimationFrame(() => {
-            locked = false;
-          });
-        };
-        const a = () => sync(view.a, view.b),
-          b = () => sync(view.b, view.a);
-        view.a.scrollDOM.addEventListener("scroll", a);
-        view.b.scrollDOM.addEventListener("scroll", b);
-        unlisten = () => {
-          view.a.scrollDOM.removeEventListener("scroll", a);
-          view.b.scrollDOM.removeEventListener("scroll", b);
-        };
       } else {
         const isOriginal = props.mode === "original";
         single.current = new EditorView({
@@ -273,7 +255,6 @@ export const Editors = forwardRef<EditorHandle, Props>(
       stats();
       return () => {
         clearTimeout(timer.current);
-        unlisten();
         if (merge.current) {
           savedStates.current = [merge.current.a.state, merge.current.b.state];
         } else if (single.current) {

@@ -47,7 +47,6 @@ function App() {
     [menu, setMenu] = useState<Menu>(null),
     [options, setOptions] = useState(defaultOptions),
     [wrap, setWrap] = useState(false),
-    [sync, setSync] = useState(true),
     [collapse, setCollapse] = useState(false),
     [view, setView] = useState<"split" | "unified">("split"),
     [mobile, setMobile] = useState(window.innerWidth < 760),
@@ -409,7 +408,6 @@ function App() {
                 </button>
               </div>
               {check("Wrap long lines", wrap, () => setWrap(!wrap))}
-              {check("Synchronized scrolling", sync, () => setSync(!sync))}
               {check("Collapse unchanged sections", collapse, () =>
                 setCollapse(!collapse),
               )}
@@ -809,7 +807,6 @@ function App() {
                 options={options}
                 wrap={wrap}
                 collapse={collapse}
-                sync={sync}
                 mode={mode}
                 onChange={edit}
                 onLimit={() =>

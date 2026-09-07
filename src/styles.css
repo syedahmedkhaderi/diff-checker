@@ -294,19 +294,20 @@ button.primary {
   flex-direction: column;
 }
 .editor-host {
-  height: 100%;
   min-height: 0;
   flex: 1;
-  overflow: hidden;
+  overflow: auto;
 }
+/* MergeView forces its editors to height:auto, so the host is the scroller
+   and both columns scroll together. */
 .cm-mergeView {
-  height: 100%;
-  overflow: hidden;
+  min-height: 100%;
 }
-.cm-mergeEditors {
-  height: 100%;
+.cm-mergeViewEditors {
+  align-items: flex-start;
+  min-height: 100%;
 }
-.cm-mergeEditor {
+.cm-mergeViewEditor {
   min-width: 0;
 }
 .cm-editor {
@@ -370,7 +371,7 @@ button.primary {
 .cm-changeGutter .cm-gutterElement {
   background-image: none !important;
 }
-.cm-mergeView .cm-mergeEditor:first-child {
+.cm-mergeView .cm-mergeViewEditor:first-child {
   border-right: 1px solid var(--border);
 }
 .cm-placeholder {
