@@ -129,9 +129,16 @@ const server = http.createServer(async (req, res) => {
       send(res, 403, { error: "Invalid path" });
       return;
     }
+    const hashedAsset = url.pathname.startsWith("/assets/");
     try {
-      if (!(await stat(file)).isFile()) file = path.join(base, "index.html");
+      if (!(await stat(file)).isFile()) throw 0;
     } catch {
+      // Hashed asset names are exact; a miss is a 404, not the SPA shell
+      // (serving HTML as .js would just fail nosniff and wedge the page).
+      if (hashedAsset) {
+        send(res, 404, { error: "Not found" });
+        return;
+      }
       file = path.join(base, "index.html");
     }
     const types: Record<string, string> = {
@@ -145,6 +152,11 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(200, {
       "Content-Type": types[path.extname(file)] || "application/octet-stream",
       "X-Content-Type-Options": "nosniff",
+      // Vite fingerprints asset filenames, so they can cache forever; the
+      // HTML shell must always revalidate so new builds are picked up.
+      "Cache-Control": hashedAsset
+        ? "public, max-age=31536000, immutable"
+        : "no-cache",
     });
     res.end(await readFile(file));
   } catch (e) {
