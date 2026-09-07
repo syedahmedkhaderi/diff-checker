@@ -4,7 +4,7 @@ import { readFile, stat, rm } from "node:fs/promises";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { jobs, createJob, cancelJob, cleanup, publicJob } from "./compiler";
-const port = 4318,
+const port = 5273,
   token = randomBytes(32).toString("hex");
 const allowed = new Set([
   `http://127.0.0.1:${port}`,
@@ -22,7 +22,7 @@ const send = (res: http.ServerResponse, code: number, data: unknown) => {
 const server = http.createServer(async (req, res) => {
   try {
     const host = req.headers.host || "";
-    if (!/^(127\.0\.0\.1|localhost):(4318|5173)$/.test(host)) {
+    if (!/^(127\.0\.0\.1|localhost):(5273|5173)$/.test(host)) {
       send(res, 403, { error: "Invalid host" });
       return;
     }

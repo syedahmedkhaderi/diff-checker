@@ -18,7 +18,7 @@ npm run build
 npm start
 ```
 
-Open **http://127.0.0.1:4318**. All dependencies, including the PDF worker, are served locally; there are no CDN fonts, analytics, remote document uploads, or accounts.
+Open **http://127.0.0.1:5273**. All dependencies, including the PDF worker, are served locally; there are no CDN fonts, analytics, remote document uploads, or accounts.
 
 ## Compare text
 
