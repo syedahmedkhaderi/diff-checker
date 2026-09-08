@@ -326,9 +326,14 @@ button.primary {
 .cm-content {
   padding: 21px 0 !important;
   caret-color: #2458e6;
+  user-select: text;
+  -webkit-user-select: text;
+  cursor: text;
 }
 .cm-line {
   padding: 0 16px !important;
+  user-select: text;
+  -webkit-user-select: text;
 }
 .cm-gutters {
   background: #fff !important;
