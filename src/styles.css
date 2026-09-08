@@ -343,20 +343,21 @@ button.primary {
    default selection layer is intentionally behind decorations, which makes
    selections in changed lines look as if dragging did nothing. */
 .cm-editor .cm-selectionLayer {
-  z-index: 0;
+  z-index: 0 !important;
   pointer-events: none;
 }
 .cm-editor .cm-selectionBackground {
-  background: #b9cdfb !important;
-  opacity: 0.78;
+  background: #6f9ff2 !important;
+  opacity: 0.55;
+  box-shadow: inset 0 0 0 1px #4f7ed6;
   border-radius: 2px;
 }
 .cm-editor.cm-focused .cm-selectionBackground {
-  background: #9fbcf8 !important;
-  opacity: 0.9;
+  background: #5d8fe9 !important;
+  opacity: 0.62;
 }
 .cm-editor ::selection {
-  background: #9fbcf8;
+  background: #5d8fe9;
   color: inherit;
 }
 .cm-gutters {
