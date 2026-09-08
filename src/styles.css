@@ -335,6 +335,30 @@ button.primary {
   user-select: text;
   -webkit-user-select: text;
 }
+.cm-line * {
+  user-select: text;
+  -webkit-user-select: text;
+}
+/* Keep a real text selection visible over the diff background. CodeMirror's
+   default selection layer is intentionally behind decorations, which makes
+   selections in changed lines look as if dragging did nothing. */
+.cm-editor .cm-selectionLayer {
+  z-index: 0;
+  pointer-events: none;
+}
+.cm-editor .cm-selectionBackground {
+  background: #b9cdfb !important;
+  opacity: 0.78;
+  border-radius: 2px;
+}
+.cm-editor.cm-focused .cm-selectionBackground {
+  background: #9fbcf8 !important;
+  opacity: 0.9;
+}
+.cm-editor ::selection {
+  background: #9fbcf8;
+  color: inherit;
+}
 .cm-gutters {
   background: #fff !important;
   color: #8b93a0 !important;
